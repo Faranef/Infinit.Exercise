@@ -54,19 +54,6 @@ internal class Program
         }
     }
 
-    private static async Task<ConcurrentDictionary<char, int>>? PrepareForCountingAsync(List <RepositoryContent> jsFiles, GitHubClient client)
-    {
-        ConcurrentDictionary<char, int> letters = [];
-        foreach (var file in jsFiles)
-        {
-            var fileContent = await client.Repository.Content.GetRawContent("lodash", "lodash", file.Path);
-            var contentString = Encoding.UTF8.GetString(fileContent);
-            CountLetters(contentString, letters);
-        }
-
-        return letters;
-    }
-
     private static void PrepareForCounting(RepositoryContent file, GitHubClient client, ConcurrentDictionary<char, int> jsLetterCounts)
     {
         var fileContent = client.Repository.Content.GetRawContent("lodash", "lodash", file.Path).Result;
